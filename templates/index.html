@@ -15,6 +15,9 @@
             <th style="border: 1px solid black;">Added</th>
             <th style="border: 1px solid black;">Action</th>
         </tr>
+        {% if tasks|length <1 %}
+            <p>No tasks available.</p>
+        {% else %}
         {% for task in tasks %}
             <tr>
                 <td style="border: 1px solid black;">{{ task.content }}</td>
@@ -27,11 +30,12 @@
             </tr>
         {% endfor %}
     </table>
-
+    {% endif %}
     <form action="/" method="post">
         <input type="text" name="content" id="content" >
         <input type="submit" value="Add">
     </form>
+   
 </div>
 {% endblock %}
 
