@@ -46,6 +46,9 @@ def delete(id):
     except:
         return 'Error while deleting task'
 
+@app.route('/update/<int:id>' , methods=['POST' , 'GET'])
+def update(id):
+    return ''
 
 # Création des tables dans la base de données
 with app.app_context():
