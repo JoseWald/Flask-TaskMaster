@@ -48,7 +48,17 @@ def delete(id):
 
 @app.route('/update/<int:id>' , methods=['POST' , 'GET'])
 def update(id):
-    return ''
+    task = ToDo.query.get_or_404(id)
+    if request.method == 'POST':
+        task_content = request.form['content']
+        task.content = task_content
+        try:
+            db.session.commit()
+            return redirect('/')
+        except:
+            pass
+    else:
+        return render_template('update.html' , task=task)
 
 # Création des tables dans la base de données
 with app.app_context():
