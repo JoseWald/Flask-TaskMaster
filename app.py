@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, request, url_for
 from flask_sqlalchemy import SQLAlchemy
 
 
@@ -18,9 +18,12 @@ class ToDo(db.Model):
     def __repr__(self):
         return '<Task %r>' % self.id
 
-@app.route('/')
+@app.route('/' , methods=['GET' , 'POST'])
 def index():
-    return render_template('index.html')
+    if request.method == 'POST':
+        return 'Hello'
+    else:
+        return render_template('index.html')
 
 # Création des tables dans la base de données
 with app.app_context():
