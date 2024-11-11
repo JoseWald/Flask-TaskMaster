@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import Flask, render_template, request, url_for
+from flask import Flask, render_template, request, redirect,  url_for
 from flask_sqlalchemy import SQLAlchemy
 
 
@@ -21,9 +21,19 @@ class ToDo(db.Model):
 @app.route('/' , methods=['GET' , 'POST'])
 def index():
     if request.method == 'POST':
-        return 'Hello'
-    else:
-        return render_template('index.html')
+        task_content = request.form['content']
+        new_task = ToDo(content = task_content)
+
+        try:
+            db.session.add(new_task)
+            db.session.commit()
+            return redirect('/')
+        except:
+            return 'Error while adding task'
+
+    else:  
+        tasks = ToDo.query.order_by(ToDo.date_created).all() 
+        return render_template('index.html' , tasks = tasks)
 
 # Création des tables dans la base de données
 with app.app_context():
