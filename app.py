@@ -34,6 +34,18 @@ def index():
     else:  
         tasks = ToDo.query.order_by(ToDo.date_created).all() 
         return render_template('index.html' , tasks = tasks)
+    
+@app.route('/delete/<int:id>')
+def delete(id):
+    task_to_del = ToDo.query.get_or_404(id)
+
+    try:
+        db.session.delete(task_to_del)
+        db.session.commit()
+        return redirect('/')
+    except:
+        return 'Error while deleting task'
+
 
 # Création des tables dans la base de données
 with app.app_context():
